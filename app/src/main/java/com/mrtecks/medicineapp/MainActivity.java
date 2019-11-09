@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     AutoViewPager pager;
-    RecyclerView bestSelling, categories;
+    RecyclerView categories;
 
     ProgressBar progress;
-    BestAdapter adapter2 , adapter3;
 
 
     CategoryAdapter adapter6;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         pager = findViewById(R.id.viewPager);
-        bestSelling = findViewById(R.id.recyclerView);
+
 
         categories = findViewById(R.id.categories);
         progress = findViewById(R.id.progress);
@@ -123,10 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        adapter2 = new BestAdapter(this , list);
-        adapter3 = new BestAdapter(this , list);
-
-
         adapter6 = new CategoryAdapter(this , list3);
 
         LinearLayoutManager manager1 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
@@ -135,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager4 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
         LinearLayoutManager manager5 = new LinearLayoutManager(this , RecyclerView.VERTICAL , false);
 
-        bestSelling.setAdapter(adapter2);
-        bestSelling.setLayoutManager(manager1);
 
 
         categories.setAdapter(adapter6);
@@ -230,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*cart.setOnClickListener(new View.OnClickListener() {
+        cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -247,9 +240,9 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
             }
-        });*/
+        });
 
-        /*cart1.setOnClickListener(new View.OnClickListener() {
+        cart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -266,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
             }
-        });*/
+        });
 
         /*orders.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     pager.setAdapter(adapter1);
                     indicator.setViewPager(pager);
 
-                    adapter2.setData(response.body().getBest());
+
                     adapter6.setData(response.body().getCat());
 
                 }
@@ -470,13 +463,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    /*if (cid != null)
+                    if (cid != null)
                     {
                         Intent intent = new Intent(getContext() , SubCat.class);
                         intent.putExtra("id" , cid);
                         intent.putExtra("title" , tit);
                         startActivity(intent);
-                    }*/
+                    }
 
 
 
@@ -527,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
             final String nv1;
 
-            /*if (item.getStock().equals("In stock"))
+            if (item.getStock().equals("In stock"))
             {
                 holder.add.setEnabled(true);
             }
@@ -536,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
                 holder.add.setEnabled(false);
             }
 
-            holder.stock.setText(item.getStock());*/
+            holder.stock.setText(item.getStock());
 
             if (dis > 0)
             {
@@ -752,10 +745,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    /*Intent intent = new Intent(context , SubCat.class);
+                    Intent intent = new Intent(context , SubCat.class);
                     intent.putExtra("id" , item.getId());
                     intent.putExtra("title" , item.getName());
-                    context.startActivity(intent);*/
+                    context.startActivity(intent);
 
                 }
             });

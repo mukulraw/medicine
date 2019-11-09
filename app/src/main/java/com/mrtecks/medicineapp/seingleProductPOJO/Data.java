@@ -31,6 +31,9 @@ public class Data {
     @SerializedName("size")
     @Expose
     private String size;
+    @SerializedName("size_description")
+    @Expose
+    private String sizeDescription;
     @SerializedName("description")
     @Expose
     private String description;
@@ -43,27 +46,30 @@ public class Data {
     @SerializedName("unit")
     @Expose
     private String unit;
-    @SerializedName("packaging_type")
+    @SerializedName("key_ingredients")
     @Expose
-    private String packagingType;
-    @SerializedName("shelf_life")
+    private String keyIngredients;
+    @SerializedName("key_benefits")
     @Expose
-    private String shelfLife;
+    private String keyBenefits;
     @SerializedName("seller")
     @Expose
     private String seller;
-    @SerializedName("disclaimer")
+    @SerializedName("direction_for_use")
     @Expose
-    private String disclaimer;
+    private String directionForUse;
+    @SerializedName("safety_information")
+    @Expose
+    private String safetyInformation;
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("created")
-    @Expose
-    private String created;
     @SerializedName("stock")
     @Expose
     private String stock;
+    @SerializedName("created")
+    @Expose
+    private String created;
 
     public String getId() {
         return id;
@@ -137,6 +143,14 @@ public class Data {
         this.size = size;
     }
 
+    public String getSizeDescription() {
+        return sizeDescription;
+    }
+
+    public void setSizeDescription(String sizeDescription) {
+        this.sizeDescription = sizeDescription;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -169,20 +183,20 @@ public class Data {
         this.unit = unit;
     }
 
-    public String getPackagingType() {
-        return packagingType;
+    public String getKeyIngredients() {
+        return keyIngredients;
     }
 
-    public void setPackagingType(String packagingType) {
-        this.packagingType = packagingType;
+    public void setKeyIngredients(String keyIngredients) {
+        this.keyIngredients = keyIngredients;
     }
 
-    public String getShelfLife() {
-        return shelfLife;
+    public String getKeyBenefits() {
+        return keyBenefits;
     }
 
-    public void setShelfLife(String shelfLife) {
-        this.shelfLife = shelfLife;
+    public void setKeyBenefits(String keyBenefits) {
+        this.keyBenefits = keyBenefits;
     }
 
     public String getSeller() {
@@ -193,12 +207,20 @@ public class Data {
         this.seller = seller;
     }
 
-    public String getDisclaimer() {
-        return disclaimer;
+    public String getDirectionForUse() {
+        return directionForUse;
     }
 
-    public void setDisclaimer(String disclaimer) {
-        this.disclaimer = disclaimer;
+    public void setDirectionForUse(String directionForUse) {
+        this.directionForUse = directionForUse;
+    }
+
+    public String getSafetyInformation() {
+        return safetyInformation;
+    }
+
+    public void setSafetyInformation(String safetyInformation) {
+        this.safetyInformation = safetyInformation;
     }
 
     public String getStatus() {
@@ -209,19 +231,19 @@ public class Data {
         this.status = status;
     }
 
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
     public String getStock() {
         return stock;
     }
 
     public void setStock(String stock) {
         this.stock = stock;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }
