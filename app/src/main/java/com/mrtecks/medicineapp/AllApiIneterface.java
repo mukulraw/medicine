@@ -12,6 +12,7 @@ import com.mrtecks.medicineapp.searchPOJO.searchBean;
 import com.mrtecks.medicineapp.seingleProductPOJO.singleProductBean;
 import com.mrtecks.medicineapp.subCat1POJO.subCat1Bean;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -143,4 +144,13 @@ public interface AllApiIneterface {
             @Part("date") String date,
             @Part("promo") String promo
     );
+
+    @Multipart
+    @POST("medicine/api/uploadPres.php")
+    Call<singleProductBean> uploadPres(
+            @Part("user_id") String user_id,
+            @Part MultipartBody.Part file1,
+            @Part("version") String version
+    );
+
 }
