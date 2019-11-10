@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*orders.setOnClickListener(new View.OnClickListener() {
+        orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
             }
-        });*/
+        });
 
 
 
