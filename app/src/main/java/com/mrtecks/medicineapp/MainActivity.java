@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     List<Cat> list3;
     DrawerLayout drawer;
 
-    TextView login , logout , cart , orders , count , terms , about;
+    TextView login , logout , cart , orders , count , terms , about , address;
 
     CircleIndicator indicator;
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         terms = findViewById(R.id.terms);
         about = findViewById(R.id.about);
-
+        address = findViewById(R.id.address);
 
         setSupportActionBar(toolbar);
 
@@ -305,13 +305,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (uid.length() > 0)
+                {
+                    Intent intent = new Intent(MainActivity.this , Address.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
+                }
+
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
 
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final CharSequence[] items = {"Take Photo from Camera",
+                Intent intent = new Intent(MainActivity.this , Checkout2.class);
+                startActivity(intent);
+
+                /*final CharSequence[] items = {"Take Photo from Camera",
                         "Choose from Gallery",
                         "Cancel"};
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
@@ -355,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                builder.show();
+                builder.show();*/
 
             }
         });
@@ -873,7 +894,7 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("path" , ypath);
 
-            MultipartBody.Part body = null;
+            /*MultipartBody.Part body = null;
 
             try {
 
@@ -925,7 +946,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-
+*/
 
 
 
@@ -936,7 +957,7 @@ public class MainActivity extends AppCompatActivity {
 
             MultipartBody.Part body = null;
 
-            try {
+            /*try {
 
                 RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
                 body = MultipartBody.Part.createFormData("pres", f1.getName(), reqFile1);
@@ -983,7 +1004,7 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (Exception e1) {
                 e1.printStackTrace();
-            }
+            }*/
 
 
 

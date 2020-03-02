@@ -7,18 +7,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mrtecks.medicineapp.ordersPOJO.Datum;
-import com.mrtecks.medicineapp.ordersPOJO.ordersBean;
+import com.mrtecks.medicineapp.addressPOJO.Datum;
+import com.mrtecks.medicineapp.addressPOJO.addressBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,26 +31,30 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class Orders extends AppCompatActivity {
+public class Address extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
     ProgressBar progress;
-    RecyclerView grid;
+    String base;
     OrdersAdapter adapter;
     List<Datum> list;
+
+    //CartAdapter adapter;
+
     GridLayoutManager manager;
+
+    RecyclerView grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders);
+        setContentView(R.layout.activity_address);
 
         list = new ArrayList<>();
 
         toolbar = findViewById(R.id.toolbar3);
         progress = findViewById(R.id.progressBar3);
         grid = findViewById(R.id.grid);
-
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -65,7 +69,8 @@ public class Orders extends AppCompatActivity {
         });
 
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle("My Orders");
+        toolbar.setTitle("My Addresses");
+
 
         adapter = new OrdersAdapter(list, this);
 
@@ -99,11 +104,10 @@ public class Orders extends AppCompatActivity {
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-
-        Call<ordersBean> call = cr.getOrders(SharePreferenceUtils.getInstance().getString("userId"));
-        call.enqueue(new Callback<ordersBean>() {
+        Call<addressBean> call = cr.getAddress(SharePreferenceUtils.getInstance().getString("userId"));
+        call.enqueue(new Callback<addressBean>() {
             @Override
-            public void onResponse(Call<ordersBean> call, Response<ordersBean> response) {
+            public void onResponse(Call<addressBean> call, Response<addressBean> response) {
 
                 if (response.body().getData().size() > 0) {
 
@@ -112,9 +116,8 @@ public class Orders extends AppCompatActivity {
 
                 } else {
                     adapter.setgrid(response.body().getData());
+                    Toast.makeText(Address.this, "No address found", Toast.LENGTH_SHORT).show();
                     finish();
-                    Toast.makeText(Orders.this, "No order found", Toast.LENGTH_SHORT).show();
-
                 }
 
                 progress.setVisibility(View.GONE);
@@ -122,7 +125,7 @@ public class Orders extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ordersBean> call, Throwable t) {
+            public void onFailure(Call<addressBean> call, Throwable t) {
                 progress.setVisibility(View.GONE);
             }
         });
@@ -152,7 +155,7 @@ public class Orders extends AppCompatActivity {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-            View view = inflater.inflate(R.layout.order_list_item, viewGroup, false);
+            View view = inflater.inflate(R.layout.order_list_item2, viewGroup, false);
 
             return new ViewHolder(view);
         }
@@ -165,32 +168,54 @@ public class Orders extends AppCompatActivity {
             //viewHolder.setIsRecyclable(false);
 
 
-            if (item.getType().equals("pres"))
-            {
-                viewHolder.txn.setText("#" + item.getTxn() + " (PRES)");
-            }
-            else
-            {
-                viewHolder.txn.setText("#" + item.getTxn());
-            }
+            viewHolder.txn.setText(item.getName());
 
-            viewHolder.date.setText(item.getCreated());
-            viewHolder.status.setText(item.getStatus());
-            viewHolder.name.setText(item.getName());
-            viewHolder.address.setText(item.getAddress());
-            viewHolder.pay.setText(item.getPay_mode());
-            viewHolder.slot.setText(item.getSlot());
-            viewHolder.amount.setText("\u20B9 " + item.getAmount());
 
-            viewHolder.deldate.setText(item.getDelivery_date());
+            viewHolder.name.setText(item.getArea());
 
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.pay.setText(item.getCity());
+
+            viewHolder.amount.setText(item.getHouse());
+
+            viewHolder.deldate.setText(item.getPin());
+
+
+            viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(context , OrderDetails.class);
-                    intent.putExtra("oid" , item.getId());
-                    startActivity(intent);
+                    progress.setVisibility(View.VISIBLE);
+
+                    Bean b = (Bean) getApplicationContext();
+
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                    Call<addressBean> call = cr.deleteAddress(item.getId());
+                    call.enqueue(new Callback<addressBean>() {
+                        @Override
+                        public void onResponse(Call<addressBean> call, Response<addressBean> response) {
+
+                            Toast.makeText(Address.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            onResume();
+
+                            progress.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<addressBean> call, Throwable t) {
+                            progress.setVisibility(View.GONE);
+                        }
+                    });
 
                 }
             });
@@ -204,21 +229,23 @@ public class Orders extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView txn , date , status , name , address , amount , pay , slot , deldate;
+            TextView txn, name, amount, pay, deldate;
 
+            ImageButton delete;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 txn = itemView.findViewById(R.id.textView27);
-                date = itemView.findViewById(R.id.textView28);
-                status = itemView.findViewById(R.id.textView35);
+
+
                 name = itemView.findViewById(R.id.textView32);
-                address = itemView.findViewById(R.id.textView34);
+
                 amount = itemView.findViewById(R.id.textView30);
                 pay = itemView.findViewById(R.id.textView40);
-                slot = itemView.findViewById(R.id.textView62);
+
                 deldate = itemView.findViewById(R.id.textView42);
+                delete = itemView.findViewById(R.id.imageView7);
 
 
             }

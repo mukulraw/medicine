@@ -31,6 +31,9 @@ public class Datum {
     @SerializedName("slot")
     @Expose
     private String slot;
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     @SerializedName("delivery_date")
     @Expose
@@ -114,5 +117,13 @@ public class Datum {
 
     public void setDelivery_date(String delivery_date) {
         this.delivery_date = delivery_date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -1,5 +1,6 @@
 package com.mrtecks.medicineapp;
 
+import com.mrtecks.medicineapp.addressPOJO.addressBean;
 import com.mrtecks.medicineapp.cartPOJO.cartBean;
 import com.mrtecks.medicineapp.checkPromoPOJO.checkPromoBean;
 import com.mrtecks.medicineapp.checkoutPOJO.checkoutBean;
@@ -142,15 +143,43 @@ public interface AllApiIneterface {
             @Part("pay_mode") String pay_mode,
             @Part("slot") String slot,
             @Part("date") String date,
-            @Part("promo") String promo
+            @Part("promo") String promo,
+            @Part("house") String house,
+            @Part("area") String area,
+            @Part("city") String city,
+            @Part("pin") String pin,
+            @Part("isnew") String isnew
+    );
+
+    @Multipart
+    @POST("medicine/api/getAddress.php")
+    Call<addressBean> getAddress(
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
+    @POST("medicine/api/deleteAddress.php")
+    Call<addressBean> deleteAddress(
+            @Part("id") String id
     );
 
     @Multipart
     @POST("medicine/api/uploadPres.php")
-    Call<singleProductBean> uploadPres(
+    Call<checkoutBean> uploadPres(
             @Part("user_id") String user_id,
             @Part MultipartBody.Part file1,
-            @Part("version") String version
+            @Part("txn") String txn,
+            @Part("name") String name,
+            @Part("address") String address,
+            @Part("pay_mode") String pay_mode,
+            @Part("slot") String slot,
+            @Part("date") String date,
+            @Part("promo") String promo,
+            @Part("house") String house,
+            @Part("area") String area,
+            @Part("city") String city,
+            @Part("pin") String pin,
+            @Part("isnew") String isnew
     );
 
 }

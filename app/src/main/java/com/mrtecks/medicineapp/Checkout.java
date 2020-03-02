@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mrtecks.medicineapp.addressPOJO.Datum;
+import com.mrtecks.medicineapp.addressPOJO.addressBean;
 import com.mrtecks.medicineapp.checkPromoPOJO.checkPromoBean;
 import com.mrtecks.medicineapp.checkoutPOJO.checkoutBean;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -60,8 +62,12 @@ public class Checkout extends AppCompatActivity {
     TextView amount , grand;
     String dd = "";
     List<String> ts;
-
+    Spinner addr;
+    List<String> list;
     String pid;
+    List<Datum> adlist;
+
+    String isnew = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,8 @@ public class Checkout extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         ts = new ArrayList<>();
-
+        list = new ArrayList<>();
+        adlist = new ArrayList<>();
         amm = getIntent().getStringExtra("amount");
 
         toolbar = findViewById(R.id.toolbar4);
@@ -77,6 +84,7 @@ public class Checkout extends AppCompatActivity {
         address = findViewById(R.id.editText3);
         proceed = findViewById(R.id.button6);
         progress = findViewById(R.id.progressBar4);
+        addr = findViewById(R.id.spinner2);
 
         group = findViewById(R.id.radioButton);
         area = findViewById(R.id.editText5);
@@ -121,7 +129,89 @@ public class Checkout extends AppCompatActivity {
 
 
 
+        progress.setVisibility(View.VISIBLE);
 
+        Bean b = (Bean) getApplicationContext();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+        Call<addressBean> call = cr.getAddress(SharePreferenceUtils.getInstance().getString("userId"));
+        call.enqueue(new Callback<addressBean>() {
+            @Override
+            public void onResponse(Call<addressBean> call, Response<addressBean> response) {
+
+                list.clear();
+                adlist.clear();
+
+                list.add("New Address");
+
+                if (response.body().getData().size() > 0) {
+
+                    adlist.addAll(response.body().getData());
+
+                    for (int i = 0 ; i < response.body().getData().size() ; i++)
+                    {
+                        list.add(response.body().getData().get(i).getName());
+                    }
+
+
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Checkout.this,
+                        android.R.layout.simple_list_item_1, list);
+
+                addr.setAdapter(adapter);
+
+
+
+                progress.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<addressBean> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+            }
+        });
+
+        addr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position > 0)
+                {
+
+
+                    isnew = "0";
+                    Datum item = adlist.get(position - 1);
+                    name.setText(item.getName());
+                    address.setText(item.getHouse());
+                    area.setText(item.getArea());
+                    city.setText(item.getCity());
+                    pin.setText(item.getPin());
+
+
+                }
+                else
+                {
+                    isnew = "1";
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -189,7 +279,12 @@ public class Checkout extends AppCompatActivity {
                                                     paymode,
                                                     tslot,
                                                     dd,
-                                                    pid
+                                                    pid,
+                                                    a,
+                                                    ar,
+                                                    c,
+                                                    p,
+                                                    isnew
                                             );
                                             call.enqueue(new Callback<checkoutBean>() {
                                                 @Override
