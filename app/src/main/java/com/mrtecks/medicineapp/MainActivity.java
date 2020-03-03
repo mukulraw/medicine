@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     AutoViewPager pager;
-    RecyclerView categories;
+    RecyclerView categories , offers;
 
     ProgressBar progress;
 
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     CircleIndicator indicator;
 
     ImageButton cart1;
+
+    BestAdapter adapter;
 
     File f1;
     Uri uri;
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         categories = findViewById(R.id.categories);
+        offers = findViewById(R.id.recyclerView);
         progress = findViewById(R.id.progress);
         login = findViewById(R.id.textView3);
         logout = findViewById(R.id.logout);
@@ -146,16 +149,17 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-
+        adapter = new BestAdapter(this , list);
         adapter6 = new CategoryAdapter(this , list3);
 
         LinearLayoutManager manager1 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
         LinearLayoutManager manager2 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
         LinearLayoutManager manager3 = new LinearLayoutManager(this , RecyclerView.VERTICAL , false);
         LinearLayoutManager manager4 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
-        LinearLayoutManager manager5 = new LinearLayoutManager(this , RecyclerView.VERTICAL , false);
+        GridLayoutManager manager5 = new GridLayoutManager(this , 1);
 
-
+        offers.setAdapter(adapter);
+        offers.setLayoutManager(manager1);
 
         categories.setAdapter(adapter6);
         categories.setLayoutManager(manager5);
@@ -426,6 +430,7 @@ public class MainActivity extends AppCompatActivity {
                     pager.setAdapter(adapter1);
                     indicator.setViewPager(pager);
 
+                    adapter.setData(response.body().getBest());
 
                     adapter6.setData(response.body().getCat());
 
@@ -1126,5 +1131,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
 
 }

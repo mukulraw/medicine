@@ -100,9 +100,22 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(Splash.this , MainActivity.class);
-                startActivity(intent);
-                finish();
+                final String uid = SharePreferenceUtils.getInstance().getString("userId");
+
+                if (uid.length() > 0)
+                {
+                    Intent intent = new Intent(Splash.this , MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(Splash.this , Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+
 
             }
         } , 1200);
