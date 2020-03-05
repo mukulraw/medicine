@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,8 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class OrderDetails extends AppCompatActivity {
-
+public class Fav extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView grid;
@@ -47,7 +47,7 @@ public class OrderDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_details);
+        setContentView(R.layout.activity_fav);
 
         oid = getIntent().getStringExtra("oid");
 
@@ -60,7 +60,7 @@ public class OrderDetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle("Order Details");
+        toolbar.setTitle("My Favourites");
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +102,7 @@ public class OrderDetails extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<orderDetailsBean> call = cr.getOrderDetails(oid);
+        Call<orderDetailsBean> call = cr.getFav(SharePreferenceUtils.getInstance().getString("userId"));
         call.enqueue(new Callback<orderDetailsBean>() {
             @Override
             public void onResponse(Call<orderDetailsBean> call, Response<orderDetailsBean> response) {
@@ -148,7 +148,7 @@ public class OrderDetails extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.category_list_model2 , parent , false);
+            View view = inflater.inflate(R.layout.category_list_model21 , parent , false);
             return new ViewHolder(view);
         }
 
@@ -162,10 +162,21 @@ public class OrderDetails extends AppCompatActivity {
             ImageLoader loader = ImageLoader.getInstance();
             loader.displayImage(item.getImage() , holder.image , options);
 
-            holder.quantity.setText("Quantity - " + item.getQuantity());
+            //holder.quantity.setText("Quantity - " + item.getQuantity());
             holder.title.setText(item.getName());
-            holder.price.setText("Price - \u20B9 " + item.getPrice());
+            holder.quantity.setText("Price - \u20B9 " + item.getPrice());
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context , SingleProduct.class);
+                    intent.putExtra("id" , item.getProductId());
+                    intent.putExtra("title" , item.getName());
+                    context.startActivity(intent);
+
+                }
+            });
 
 
         }

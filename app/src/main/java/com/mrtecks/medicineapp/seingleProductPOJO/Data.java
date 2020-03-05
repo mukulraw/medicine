@@ -70,6 +70,10 @@ public class Data {
     @SerializedName("created")
     @Expose
     private String created;
+    @SerializedName("favourite")
+    @Expose
+    private String favourite;
+
 
     public String getId() {
         return id;
@@ -245,5 +249,13 @@ public class Data {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(String favourite) {
+        this.favourite = favourite;
     }
 }

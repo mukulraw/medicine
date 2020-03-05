@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     List<Cat> list3;
     DrawerLayout drawer;
 
-    TextView login , logout , cart , orders , count , terms , about , address;
+    TextView login , logout , cart , orders , count , terms , about , address , fav;
 
     CircleIndicator indicator;
 
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         orders = findViewById(R.id.orders);
         indicator = findViewById(R.id.indicator);
         upload = findViewById(R.id.button4);
+        fav = findViewById(R.id.fav);
 
         cart1 = findViewById(R.id.imageButton3);
         count = findViewById(R.id.count);
@@ -270,6 +271,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (uid.length() > 0)
+                {
+                    Intent intent = new Intent(MainActivity.this , Fav.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
+                }
+
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
 
         cart1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -663,10 +684,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    /*Intent intent = new Intent(context , SingleProduct.class);
+                    Intent intent = new Intent(context , SingleProduct.class);
                     intent.putExtra("id" , item.getId());
                     intent.putExtra("title" , item.getName());
-                    context.startActivity(intent);*/
+                    context.startActivity(intent);
 
                 }
             });

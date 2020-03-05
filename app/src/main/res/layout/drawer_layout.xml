@@ -91,6 +91,13 @@
             android:text="My Addresses"
             android:id="@+id/address"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="My Favourites"
+            android:id="@+id/fav"
+            />
 
 
         <TextView

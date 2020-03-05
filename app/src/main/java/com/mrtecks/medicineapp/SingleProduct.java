@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class SingleProduct extends AppCompatActivity {
 
     String id , name;
 
+    ImageButton fav;
+    boolean isFav = false;
     String pid , nv1;
 
     @Override
@@ -74,6 +77,7 @@ public class SingleProduct extends AppCompatActivity {
         safety = findViewById(R.id.safety);
         progress = findViewById(R.id.progress);
         stock = findViewById(R.id.stock);
+        fav = findViewById(R.id.fav);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -192,6 +196,75 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (pid.length() > 0)
+                {
+                    String uid = SharePreferenceUtils.getInstance().getString("userId");
+
+                    if (uid.length() > 0)
+                    {
+
+                        progress.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+
+                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                        logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                        logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                        OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .client(client)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        int versionCode = BuildConfig.VERSION_CODE;
+                        String versionName = BuildConfig.VERSION_NAME;
+
+                        Call<singleProductBean> call = cr.addFav(SharePreferenceUtils.getInstance().getString("userId") , pid);
+
+                        call.enqueue(new Callback<singleProductBean>() {
+                            @Override
+                            public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                Toast.makeText(SingleProduct.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                progress.setVisibility(View.GONE);
+
+                                onResume();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                    else
+                    {
+                        Toast.makeText(SingleProduct.this, "Please login to continue", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SingleProduct.this , Login.class);
+                        startActivity(intent);
+
+                    }
+                }
+
+
+
+            }
+        });
 
     }
 
@@ -218,7 +291,7 @@ public class SingleProduct extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<singleProductBean> call = cr.getProductById(id);
+        Call<singleProductBean> call = cr.getProductById(id , SharePreferenceUtils.getInstance().getString("userId"));
         call.enqueue(new Callback<singleProductBean>() {
             @Override
             public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
@@ -273,7 +346,18 @@ public class SingleProduct extends AppCompatActivity {
                     direction.setText(Html.fromHtml(item.getDirectionForUse()));
                     safety.setText(Html.fromHtml(item.getSafetyInformation()));
 
+                    if (item.getFavourite().equals("0"))
+                    {
+                        isFav = false;
+                        fav.setImageDrawable(getResources().getDrawable(R.drawable.ic_heart));
+                    }
+                    else
+                    {
+                        isFav = true;
+                        fav.setImageDrawable(getResources().getDrawable(R.drawable.ic_heart_red));
+                    }
 
+                    Log.d("fav" , item.getFavourite());
 
                     if (item.getStock().equals("In stock"))
                     {

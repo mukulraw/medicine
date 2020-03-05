@@ -48,7 +48,8 @@ public interface AllApiIneterface {
     @Multipart
     @POST("medicine/api/getProductById.php")
     Call<singleProductBean> getProductById(
-            @Part("id") String cat
+            @Part("id") String cat,
+            @Part("user_id") String user_id
     );
 
     @Multipart
@@ -82,6 +83,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("medicine/api/addFav.php")
+    Call<singleProductBean> addFav(
+            @Part("user_id") String user_id,
+            @Part("product_id") String product_id
+    );
+
+    @Multipart
     @POST("medicine/api/updateCart.php")
     Call<singleProductBean> updateCart(
             @Part("id") String id,
@@ -111,6 +119,12 @@ public interface AllApiIneterface {
     @POST("medicine/api/getOrderDetails.php")
     Call<orderDetailsBean> getOrderDetails(
             @Part("order_id") String order_id
+    );
+
+    @Multipart
+    @POST("medicine/api/getFav.php")
+    Call<orderDetailsBean> getFav(
+            @Part("user_id") String user_id
     );
 
     @Multipart
