@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,9 @@ public class SingleProduct extends AppCompatActivity {
 
     String id , name;
 
+    RatingBar rating;
+    TextView rate;
+
     ImageButton fav;
     boolean isFav = false;
     String pid , nv1;
@@ -65,6 +69,8 @@ public class SingleProduct extends AppCompatActivity {
         title = findViewById(R.id.title);
         price = findViewById(R.id.price);
         add = findViewById(R.id.add);
+        rating = findViewById(R.id.rating);
+        rate = findViewById(R.id.rate);
         brand = findViewById(R.id.brand);
         size = findViewById(R.id.unit);
         seller = findViewById(R.id.seller);
