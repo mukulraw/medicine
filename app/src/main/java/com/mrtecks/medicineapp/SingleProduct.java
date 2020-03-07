@@ -202,6 +202,76 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialog = new Dialog(SingleProduct.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.rating_dialog);
+                dialog.show();
+
+                RatingBar ratt = dialog.findViewById(R.id.ratingBar);
+                Button submit = dialog.findViewById(R.id.button7);
+                ProgressBar bar = dialog.findViewById(R.id.progressBar5);
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        float ra = ratt.getRating();
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+
+                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                        logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                        logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                        OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .client(client)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        Call<singleProductBean> call = cr.addRating(SharePreferenceUtils.getInstance().getString("userId") , pid , String.valueOf(ra));
+
+                        call.enqueue(new Callback<singleProductBean>() {
+                            @Override
+                            public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                Toast.makeText(SingleProduct.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                bar.setVisibility(View.GONE);
+
+                                onResume();
+
+                                dialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                });
+
+
+            }
+        });
+
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -351,6 +421,36 @@ public class SingleProduct extends AppCompatActivity {
                     key_benefits.setText(Html.fromHtml(item.getKeyBenefits()));
                     direction.setText(Html.fromHtml(item.getDirectionForUse()));
                     safety.setText(Html.fromHtml(item.getSafetyInformation()));
+
+                    if (item.getRated().equals("0"))
+                    {
+                        rate.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        rate.setVisibility(View.GONE);
+                    }
+
+                    if (item.getRating() != null)
+                    {
+                        float rr = Float.parseFloat(item.getRating());
+                        float cc = Float.parseFloat(item.getRated());
+
+                        if (cc > 0)
+                        {
+                            rating.setRating(rr / cc);
+                        }
+                        else
+                        {
+                            rating.setRating(0);
+                        }
+                    }
+                    else
+                    {
+                        rating.setRating(0);
+                    }
+
+
 
                     if (item.getFavourite().equals("0"))
                     {

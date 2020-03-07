@@ -73,6 +73,13 @@ public class Data {
     @SerializedName("favourite")
     @Expose
     private String favourite;
+    @SerializedName("rated")
+    @Expose
+    private String rated;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
+
 
 
     public String getId() {
@@ -257,5 +264,21 @@ public class Data {
 
     public void setFavourite(String favourite) {
         this.favourite = favourite;
+    }
+
+    public String getRated() {
+        return rated;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRated(String rated) {
+        this.rated = rated;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

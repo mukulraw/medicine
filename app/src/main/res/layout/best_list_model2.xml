@@ -43,6 +43,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <RatingBar
+            android:id="@+id/ratt"
+            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
@@ -52,7 +64,7 @@
             android:text="TextView"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toBottomOf="@+id/ratt" />
 
         <TextView
             android:id="@+id/textView12"

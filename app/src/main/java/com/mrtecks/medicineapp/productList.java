@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,7 +103,7 @@ public class productList extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<productsBean> call = cr.getProducts(id);
+        Call<productsBean> call = cr.getProducts(id , SharePreferenceUtils.getInstance().getString("userId"));
         call.enqueue(new Callback<productsBean>() {
             @Override
             public void onResponse(Call<productsBean> call, Response<productsBean> response) {
@@ -212,6 +213,8 @@ public class productList extends Fragment {
 
                 }
             });
+
+            holder.ratt.setRating(Float.parseFloat(item.getRating()));
 
             final String finalNv = nv1;
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +327,9 @@ public class productList extends Fragment {
             ImageView image;
             TextView price , title , discount , stock;
             Button add;
-            public ViewHolder(@NonNull View itemView) {
+            RatingBar ratt;
+
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 image = itemView.findViewById(R.id.imageView4);
@@ -333,6 +338,7 @@ public class productList extends Fragment {
                 discount = itemView.findViewById(R.id.textView10);
                 add = itemView.findViewById(R.id.button5);
                 stock = itemView.findViewById(R.id.textView64);
+                ratt = itemView.findViewById(R.id.ratt);
 
             }
         }

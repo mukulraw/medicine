@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -437,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<homeBean> call = cr.getHome();
+        Call<homeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString("userId"));
         call.enqueue(new Callback<homeBean>() {
             @Override
             public void onResponse(Call<homeBean> call, Response<homeBean> response) {
@@ -611,7 +612,7 @@ public class MainActivity extends AppCompatActivity {
         Context context;
         List<Best> list = new ArrayList<>();
 
-        public BestAdapter(Context context , List<Best> list)
+        BestAdapter(Context context, List<Best> list)
         {
             this.context = context;
             this.list = list;
@@ -676,6 +677,10 @@ public class MainActivity extends AppCompatActivity {
                 holder.discount.setVisibility(View.GONE);
                 holder.price.setText(Html.fromHtml("<font color=\"#000000\"><b>\u20B9 " + String.valueOf(item.getPrice()) + " </b></font>"));
             }
+
+
+            Log.d("rat" , item.getRating());
+            holder.ratt.setRating(Float.parseFloat(item.getRating()));
 
 
             holder.title.setText(item.getName());
@@ -803,6 +808,7 @@ public class MainActivity extends AppCompatActivity {
             ImageView image;
             TextView price , title , discount , stock;
             Button add;
+            RatingBar ratt;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -813,6 +819,7 @@ public class MainActivity extends AppCompatActivity {
                 discount = itemView.findViewById(R.id.textView10);
                 add = itemView.findViewById(R.id.button5);
                 stock = itemView.findViewById(R.id.textView63);
+                ratt = itemView.findViewById(R.id.ratt);
 
 
 

@@ -23,9 +23,9 @@ import retrofit2.http.Part;
 public interface AllApiIneterface {
 
 
-
-    @GET("medicine/api/getHome.php")
-    Call<homeBean> getHome();
+    @Multipart
+    @POST("medicine/api/getHome.php")
+    Call<homeBean> getHome(@Part("user_id") String user_id);
 
     @Multipart
     @POST("medicine/api/getSubCat1.php")
@@ -42,7 +42,8 @@ public interface AllApiIneterface {
     @Multipart
     @POST("medicine/api/getProducts.php")
     Call<productsBean> getProducts(
-            @Part("subcat2") String cat
+            @Part("subcat2") String cat,
+            @Part("user_id") String user_id
     );
 
     @Multipart
@@ -87,6 +88,14 @@ public interface AllApiIneterface {
     Call<singleProductBean> addFav(
             @Part("user_id") String user_id,
             @Part("product_id") String product_id
+    );
+
+    @Multipart
+    @POST("medicine/api/addRating.php")
+    Call<singleProductBean> addRating(
+            @Part("user_id") String user_id,
+            @Part("product_id") String product_id,
+            @Part("rating") String rating
     );
 
     @Multipart
