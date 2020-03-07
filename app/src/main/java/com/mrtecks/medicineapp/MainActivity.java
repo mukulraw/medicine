@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     CircleIndicator indicator;
 
-    ImageButton cart1;
+    ImageButton cart1 , search;
 
     BestAdapter adapter;
 
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         pager = findViewById(R.id.viewPager);
+        search = findViewById(R.id.imageButton4);
 
 
         categories = findViewById(R.id.categories);
@@ -237,6 +238,16 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+
+            }
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this , Search.class);
+                startActivity(intent);
 
             }
         });
