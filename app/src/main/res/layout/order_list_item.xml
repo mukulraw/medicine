@@ -66,9 +66,11 @@
 
         <TextView
             android:id="@+id/textView32"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="name"
+            app:layout_constraintEnd_toStartOf="@+id/textView48"
             app:layout_constraintStart_toStartOf="@+id/textView30"
             app:layout_constraintTop_toTopOf="@+id/textView31" />
 
@@ -170,5 +172,39 @@
             android:text="TextView"
             app:layout_constraintStart_toStartOf="@+id/textView42"
             app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+        <RelativeLayout
+            android:id="@+id/textView48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView35" >
+
+
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="2"
+                android:visibility="gone"
+                android:id="@+id/rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rate"
+                android:id="@+id/rate"
+                android:background="@drawable/green_back_round2"
+                android:textColor="#ffffff"
+                android:minHeight="0dp"
+                android:padding="5dp"
+                />
+
+
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

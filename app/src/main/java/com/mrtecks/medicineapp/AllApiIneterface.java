@@ -99,6 +99,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("medicine/api/rateOrder.php")
+    Call<singleProductBean> rateOrder(
+            @Part("id") String id,
+            @Part("rating") String rating
+    );
+
+    @Multipart
     @POST("medicine/api/updateCart.php")
     Call<singleProductBean> updateCart(
             @Part("id") String id,

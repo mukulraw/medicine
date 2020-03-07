@@ -182,7 +182,37 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView35"
+            app:layout_constraintTop_toBottomOf="@+id/textView67"
             app:srcCompat="@drawable/logo" />
+
+        <RelativeLayout
+            android:id="@+id/textView67"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView35" >
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="2"
+                android:visibility="gone"
+                android:id="@+id/rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rate"
+                android:id="@+id/rate"
+                android:background="@drawable/green_back_round2"
+                android:textColor="#ffffff"
+                android:minHeight="0dp"
+                android:padding="5dp"
+                />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

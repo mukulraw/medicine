@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,17 +14,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mrtecks.medicineapp.ordersPOJO.Datum;
 import com.mrtecks.medicineapp.ordersPOJO.ordersBean;
+import com.mrtecks.medicineapp.seingleProductPOJO.singleProductBean;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -184,6 +192,18 @@ public class Orders extends AppCompatActivity {
 
             viewHolder.deldate.setText(item.getDelivery_date());
 
+            if (item.getRating().length() > 0)
+            {
+                viewHolder.rating.setRating(Float.parseFloat(item.getRating()));
+                viewHolder.rate.setVisibility(View.GONE);
+                viewHolder.rating.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                viewHolder.rate.setVisibility(View.VISIBLE);
+                viewHolder.rating.setVisibility(View.GONE);
+            }
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -194,7 +214,75 @@ public class Orders extends AppCompatActivity {
 
                 }
             });
+            viewHolder.rate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.rating_dialog);
+                    dialog.show();
+
+                    RatingBar ratt = dialog.findViewById(R.id.ratingBar);
+                    Button submit = dialog.findViewById(R.id.button7);
+                    ProgressBar bar = dialog.findViewById(R.id.progressBar5);
+
+
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            float ra = ratt.getRating();
+
+                            bar.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getApplicationContext();
+
+
+                            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                            logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                            logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                            OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .client(client)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            Call<singleProductBean> call = cr.rateOrder(item.getId() , String.valueOf(ra));
+
+                            call.enqueue(new Callback<singleProductBean>() {
+                                @Override
+                                public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    bar.setVisibility(View.GONE);
+
+                                    onResume();
+
+                                    dialog.dismiss();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                    bar.setVisibility(View.GONE);
+                                }
+                            });
+
+                        }
+                    });
+
+
+                }
+            });
 
         }
 
@@ -205,7 +293,8 @@ public class Orders extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView txn , date , status , name , address , amount , pay , slot , deldate;
-
+            RatingBar rating;
+            Button rate;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -219,6 +308,8 @@ public class Orders extends AppCompatActivity {
                 pay = itemView.findViewById(R.id.textView40);
                 slot = itemView.findViewById(R.id.textView62);
                 deldate = itemView.findViewById(R.id.textView42);
+                rating = itemView.findViewById(R.id.rating);
+                rate = itemView.findViewById(R.id.rate);
 
 
             }
