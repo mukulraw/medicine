@@ -38,6 +38,9 @@ public class Datum {
     @SerializedName("delivery_date")
     @Expose
     private String delivery_date;
+    @SerializedName("prescription")
+    @Expose
+    private String prescription;
 
     public String getId() {
         return id;
@@ -125,5 +128,13 @@ public class Datum {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
     }
 }

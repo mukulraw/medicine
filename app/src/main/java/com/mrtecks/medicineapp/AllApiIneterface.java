@@ -149,6 +149,12 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("medicine/api/getPres.php")
+    Call<ordersBean> getPres(
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
     @POST("medicine/api/checkPromo.php")
     Call<checkPromoBean> checkPromo(
             @Part("promo") String promo,

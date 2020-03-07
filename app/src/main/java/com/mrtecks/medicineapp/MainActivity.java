@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     List<Cat> list3;
     DrawerLayout drawer;
 
-    TextView login , logout , cart , orders , count , terms , about , address , fav;
+    TextView login , logout , cart , orders , count , terms , about , address , fav , pres;
 
     CircleIndicator indicator;
 
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         categories = findViewById(R.id.categories);
+        pres = findViewById(R.id.pres);
         offers = findViewById(R.id.recyclerView);
         progress = findViewById(R.id.progress);
         login = findViewById(R.id.textView3);
@@ -311,6 +312,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        pres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (uid.length() > 0)
+                {
+                    Intent intent = new Intent(MainActivity.this , Prescription.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
+                }
+
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
 
         orders.setOnClickListener(new View.OnClickListener() {
             @Override
