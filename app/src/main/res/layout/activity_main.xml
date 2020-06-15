@@ -5,17 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/shade"
-    android:id="@+id/drawer"
     tools:openDrawer="start"
+    android:id="@+id/drawer"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -28,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:subtitleTextColor="#000"
-                app:titleTextColor="#000" >
+                app:titleTextColor="#000">
 
 
                 <RelativeLayout
@@ -39,20 +44,19 @@
                     >
 
                     <TextView
+                        android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:text="Home"
                         android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:id="@+id/title"
-                        android:layout_centerVertical="true"
-                        />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -67,10 +71,10 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginEnd="18dp"
-                            android:layout_gravity="center_vertical">
+                            android:layout_marginBottom="10dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton3"
@@ -83,19 +87,19 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
+                                android:id="@+id/count"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_alignParentStart="true"
-                                android:id="@+id/count"
                                 android:layout_alignParentTop="true"
                                 android:background="@drawable/accent_round"
-                                android:padding="2dp"
                                 android:gravity="center"
+                                android:padding="2dp"
                                 android:text="0"
                                 android:textColor="#ffffff"
                                 android:textSize="8sp"
-                                app:layout_constraintEnd_toEndOf="@+id/imageButton3"
                                 app:layout_constraintBottom_toTopOf="@+id/imageButton3"
+                                app:layout_constraintEnd_toEndOf="@+id/imageButton3"
                                 app:layout_constraintStart_toEndOf="@+id/imageButton3"
                                 app:layout_constraintTop_toTopOf="@+id/imageButton3" />
 
@@ -107,12 +111,12 @@
                 </RelativeLayout>
 
 
-
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -133,10 +137,10 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/categories"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:id="@+id/categories"
                         android:nestedScrollingEnabled="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -155,10 +159,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:id="@+id/indicator"
                         app:layout_constraintBottom_toBottomOf="@+id/viewPager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -219,14 +223,34 @@
         </LinearLayout>
 
         <ProgressBar
+            android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:id="@+id/progress"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#f5f5f5"
+            app:itemIconTint="@color/colorPrimaryDark"
+            app:itemTextColor="@color/colorPrimaryDark"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_navigation_main" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         layout="@layout/drawer_layout"

@@ -32,6 +32,7 @@ import android.text.Html;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -45,6 +46,7 @@ import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mrtecks.medicineapp.cartPOJO.cartBean;
 import com.mrtecks.medicineapp.homePOJO.Banners;
 import com.mrtecks.medicineapp.homePOJO.Best;
@@ -108,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
     File f1;
     Uri uri;
 
+    BottomNavigationView navigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
         terms = findViewById(R.id.terms);
         about = findViewById(R.id.about);
         address = findViewById(R.id.address);
+
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         setSupportActionBar(toolbar);
 
@@ -301,6 +307,34 @@ public class MainActivity extends AppCompatActivity {
 
                 drawer.closeDrawer(GravityCompat.START);
 
+            }
+        });
+
+
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        break;
+                    case R.id.action_categories:
+                        Intent a = new Intent(MainActivity.this,Fav.class);
+                        startActivity(a);
+                        break;
+                    case R.id.action_search:
+                        Intent b = new Intent(MainActivity.this,Search.class);
+                        startActivity(b);
+                        break;
+                    case R.id.action_cart:
+                        Intent c = new Intent(MainActivity.this,Cart.class);
+                        startActivity(c);
+                        break;
+                    case R.id.action_order:
+                        Intent d = new Intent(MainActivity.this,Orders.class);
+                        startActivity(d);
+                        break;
+                }
+                return false;
             }
         });
 

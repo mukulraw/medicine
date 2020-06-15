@@ -15,7 +15,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
-        <activity android:name=".Search"></activity>
+        <activity android:name=".Search"/>
         <activity android:name=".Prescription" />
         <activity android:name=".Fav" />
         <activity android:name=".Checkout2" />

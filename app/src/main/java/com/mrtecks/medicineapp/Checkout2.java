@@ -222,7 +222,9 @@ public class Checkout2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String n = name.getText().toString();
+                Toast.makeText(Checkout2.this, "This is for demo purpose only", Toast.LENGTH_SHORT).show();
+
+                /*String n = name.getText().toString();
                 String a = address.getText().toString();
                 String ar = area.getText().toString();
                 String c = city.getText().toString();
@@ -341,7 +343,7 @@ public class Checkout2 extends AppCompatActivity {
                                         } else {
 
 
-                                                   /* Intent intent = new Intent(Checkout.2this, WebViewActivity.class);
+                                                   *//* Intent intent = new Intent(Checkout.2this, WebViewActivity.class);
                                                     intent.putExtra(AvenuesParams.ACCESS_CODE, "AVOL70EE77BF91LOFB");
                                                     intent.putExtra(AvenuesParams.MERCHANT_ID, "133862");
                                                     intent.putExtra(AvenuesParams.ORDER_ID, oid);
@@ -354,7 +356,7 @@ public class Checkout2 extends AppCompatActivity {
                                                     intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/grocery/api/pay/ccavResponseHandler.php");
                                                     intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/grocery/api/pay/GetRSA.php");
 
-                                                    startActivityForResult(intent, 12);*/
+                                                    startActivityForResult(intent, 12);*//*
 
 
                                         }
@@ -391,7 +393,7 @@ public class Checkout2 extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(Checkout2.this, "Please enter a valid name", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
         });
