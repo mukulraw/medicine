@@ -48,7 +48,7 @@ public class Search extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        /*setContentView(R.layout.activity_search);
 
         list = new ArrayList<>();
 
@@ -146,7 +146,7 @@ public class Search extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
 
     }
 
